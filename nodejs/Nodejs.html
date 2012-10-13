@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Node.js</title>
+	<meta name="viewport" content="width=1024, user-scalable=no">
+	
+	<!-- Replace path with correct path to deck.core.css. -->
+	<link rel="stylesheet" href="deck.js/core/deck.core.css" type="text/css">
+	
+	<!-- Any other extension CSS files go here. -->
+	<link rel="stylesheet" href="deck.js/extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="deck.js/extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="deck.js/extensions/navigation/deck.navigation.css">
+	<link rel="stylesheet" href="deck.js/extensions/status/deck.status.css">
+	<link rel="stylesheet" href="deck.js/extensions/hash/deck.hash.css">
+	<link rel="stylesheet" href="deck.js/extensions/scale/deck.scale.css">
+
+	<!-- Style theme. More available in /themes/style/ or create your own. -->
+	<link rel="stylesheet" href="deck.js/themes/style/web-2.0.css">
+	
+	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
+	<link rel="stylesheet" href="deck.js/themes/transition/horizontal-slide.css">
+	
+	<script src="deck.js/modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<!-- Create any number of elements with class slide within the container -->
+<section class="slide" id="title-slide">
+	<h1>Node.js 基础</h1>
+</section>
+
+<section class="slide" >
+	<h2>Node.js是什么？</h2>
+	<ul>
+	    <li class="slide" >
+	        <p><strong>Node是一个Javascript运行环境(runtime)。</strong></p>
+              </li>
+              <li class="slide">
+                  <p>实际上它是对GoogleV8引擎（应用于Google Chrome浏览器)进行了封装。V8引 擎执行Javascript的速度非常快，性能非常好。Node对一些特殊用例进行了优化，提供了替代的API，使得V8在非浏览器环境下运行得更好。</p>
+              </li>
+             <li class="slide" >
+                  <p>正常我们使用的C++、java采用单进程多线程的模式;一个请求占用多个线程,因此在访问量比较大的时候多个线程因为上锁、解锁等原因就会产生很长时间的等待；但是Node.js采用单进程单线程的模式，多个请求占用一个线程，所以处理速度很快</p>
+             </li>
+          </ul>
+</section>
+<section class ="slide">
+    <h2>nodejs实现的几个特点：</h2>
+    <ul>
+        <li>
+            <p><strong>单线程</strong></p>
+        </li>
+        <li>
+            <p><strong>非阻塞式IO</strong></p>
+        </li>
+        <li>
+            <p><strong>V8</strong></p>
+        </li>
+        <li>
+            <p><strong>事件驱动</strong></p>
+        </li>
+    </ul>
+</section>
+<section class ="slide">
+    <h2>Nodejs带来了...</h2>
+    <ul>
+        <li>SSJS(server-side-JavaScript)没有“跨浏览器”的烦恼</li>
+        <li>DOM、BOM的完美支持</li>
+        <li>JS程序可以无缝移植到服务器端</li>
+        ......
+    </ul>
+</section>
+<section class ="slide">
+    <h2>单线程的优势:</h2>
+    <img src="images/Nginx.png" >
+</section>
+<section class ="slide">
+    <h2>Nodejs的安装：</h2>
+    <h4>我今天介绍的是使用git的方式安装：</h4>
+            <pre><code>git clone https://github.com/joyent/node.git
+cd node
+git checkout v0.8.2
+#Try checking nodejs.org for what the stable version is
+./configure
+make
+sudo make install #start install Nodejs</code></pre>
+</section>
+<section class ="slide">
+    <h2>Nodejs常用的一些对象、事件：</h2>
+     <ul>
+         <li>Globals</li>
+         <li>Timers</li>
+         <li>Modules</li>
+         <li>Process</li>
+         <li>Utilities</li>
+         <li>Events</li>
+         <li>Buffer</li>
+         <li>Stream</li>
+         <li>fs(File System)</li>
+     </ul>
+    <a href="http://nodejs.org/api/" >了解更多请访问官网：http://nodejs.org/api/</a>
+</section>
+<section class="slide">
+     <h2>Globals</h2>
+    <ul>
+        <li>全局的命名空间对象,在任何作用域下都可以访问</li>
+        <li>在浏览器中，全局作用域是顶级作用域。这意味着在浏览器的全局作用域下var something会定义一个全局变量。</li>
+        <li>在 Node 里，顶级作用域不是全局的，在一个 Node 模块的顶级作用域中 var something 只会定义一个该模块的局部变量。</li>
+    </ul>
+</section>
+<section class ="slide">
+    <h2>Timers定时器</h2>
+    <h3>主要有四个方法：</h3>
+    <ul class="slide">
+        <li>setTimeout(callback, delay, [arg], [...])
+         <p>设定 callback 在 delay 毫秒之后执行。</p></li>
+        <li>clearTimeout(timeoutId)
+        <p>清除定时器.</p></li>
+        <li>setInterval(callback, delay, [arg], [...])
+        <p>设定 callback 每 delay 毫秒执行一次。</p></li>
+        <li>clearInterval(intervalId)
+        <p>停止定期执行。
+        </p></li>
+    </ul>
+</section>
+<section class ="slide">
+    <h2>Modules模块</h2>
+    <p>Node 有一个简单的模块加载系统。在 Node 中，文件和模块一一对应。比如，在 foo.js 加载同一目录中的 circle.js 模块。</p>
+    <ul class="slide" >
+        <li>foo.js 的内容：
+         <pre><code>var circle = require('./circle.js');
+             console.log( 'The area of a circle of radius 4 is '
+             + circle.area(4));</code></pre>
+        </li>
+        <li>circle.js 的内容：
+            <pre><code>var PI = Math.PI;
+                exports.area = function (r) {
+                return PI * r * r;};
+                exports.circumference = function (r) {
+                return 2 * PI * r; };</code></pre>
+        </li>
+        <li>模块 circle.js 导出了 area() 函数和 circumference() 函数，这样它们就能从模块外部访问了。</li>
+    </ul>
+</section>
+<section class ="slide">
+    <h2>Process进程</h2>
+   <ul class="slide">
+       <li>process对象是一个全局对象，能从任何地方访问。它也是 EventEmitter 的实例。</li>
+       <li>'exit' 事件</li>
+        <p>进程即将退出的时候触发。它是放置检查模块状态（比如单元测试）钩子的好地方，主事件循环在 'exit' 回调完成后就不再执行，因此记时器可能不会生效。</p>
+       <p>举例：</p><pre><code>process.on('exit', function () {
+       process.nextTick(function () {
+       console.log('不会执行到这里。');
+       });
+       console.log('即将退出。');
+       });</code></pre>
+   </ul>
+</section>
+<section class ="slide">
+    <h2>Process进程</h2>
+    <p>process还有很多其他的事件：</p>
+    <ul>
+        <li>'uncaughtException' 事件
+        <p>当一个异常冒泡至主事件循环（即该事件未被捕获）时触发。</p></li>
+        <li>process.execPath
+            <p>启动本进程的 node 可执行文件所在的绝对路径。 </p></li>
+        <li>process.chdir(directory)
+            <p>更改进程当前的工作目录，如果失败则抛出异常。</p></li>
+        <li>process.cwd()
+            <p>返回进程当前的工作目录。 </p></li>
+        <li>process.stdout
+            <p>一个代表 stdout 的 Writable Stream。 </p></li>
+    </ul>
+    <a href="http://nodejs.org/api/process.html" >更多事件：http://nodejs.org/api/process.html</a>
+</section>
+<section class ="slide">
+    <h2>Utilities实用工具 </h2>
+    <p><strong>这些函数属于 'util' 模块。使用 require('util') 来访问它们。</strong></p>
+    <ul class="slide">
+        <li>util.debug(string)
+             <p>同步输出。将阻塞进程并立即向 stderr 输出 string。</p>
+             <p>例：require('util').debug('message on stderr');</p></li>
+        <li>util.log(string)
+            <p>向 stdout 输出 string 和时间戳 。</p>
+            <p>例： require('util').log('Timestmaped message.');</p></li>
+        <li>util.isArray(object)
+        <p>如果object是一个数组的话就返回true，反之返回false。</p>
+        <pre><code>var util = require(&apos;util&apos;);
+            util.isArray([])// true
+            util.isArray(new Array)// true
+            util.isArray({}) // false</code></pre></li>
+        <a href="http://nodejs.org/api/util.html">更多：http://nodejs.org/api/util.html</a>
+    </ul>
+</section>
+<section class ="slide">
+    <h2>Events事件</h2>
+    <p>Node 中很多对象都会触发事件：net.Server 在每次建立新连接时触发事件，fs.readStream 在文件打开时触发事件。所有能触发事件的对象都是 events.EventEmitter 的实例。您可以通过 require("events"); 来访问此模块。</p>
+   <ul class="slide">
+       <li>events.EventEmitter
+          <p> 要访问 EventEmitter 类， 请 require('events').EventEmitter。</p></li>
+        <li>emitter.on(event, listener)
+        <p>给指定事件添加新的监听器，添加后位于监听器数组末端。</p>
+        <pre><code>server.on('connection', function (stream) {
+            console.log('someone connected!');
+            });</code></pre></li>
+   </ul>
+</section>
+<section class ="slide">
+    <h2>Events事件</h2>
+    <ul>
+        <li>emitter.removeListener(event, listener)
+            <p>从指定事件的监听器数组删除单个监听器。</p>
+       <pre><code>var callback = function(stream) {
+           console.log('someone connected!'); };
+           server.on('connection', callback);
+           // ...
+           server.removeListener('connection', callback);</code></pre></li>
+        <li>emitter.listeners(event)
+        <p>返回指定事件的监听器数组。</p>
+        <pre><code>server.on('connection', function (stream) {
+            console.log('someone connected!');});
+            console.log(util.inspect(server.listeners('connection')); // [ [Function] ]</code></pre></li>
+    </ul>
+</section>
+<section class ="slide">
+    <h2>使用Nodejs复制文件</h2>
+    <p>下面我们来看一个具体的实例：</p>
+    <pre class="slide"><code>
+var fs = require('fs'); //引用fs模块
+var read = { flags : 'r', encoding : null, mode : 0666 };
+var wright = { flags: 'a', encoding: null, mode: 0666 };
+var fileReadStream = fs.createReadStream('./myjpg.jpg',read); //创建一个可读数据流
+var fileWriteStream = fs.createWriteStream('./new_myjpg.jpg',wright);//创建一个可写数据流
+fileReadStream.on('data',function(data){ fileWriteStream.write(data); });//将可读流中的数据写入到可写流中
+fileReadStream.on('end',function(){
+    console.log('readStream end');
+    fileWriteStream.end(); });//复制完成
+    </code></pre>
+</section>
+<section class ="slide">
+    <h1>Express  Nodejs</h1>
+    <h2><strong>Express是基于 Node.js，高性能、一流的web开发框架。</strong></h2>
+</section>
+<section class ="slide">
+    <h2>express安装</h2>
+      <pre><code>
+$ sudo npm install express#安装在默认路径
+or
+$ sudo npm install -g express
+#如果无法安装请先执行 sudo npm npm uninstall -g express
+#用express创建一个项目并进入
+$ express temp/app && cd temp/app
+#在项目中添加工程文件
+$ npm install -d
+#到这一个简单的express项目就已经创建完成了。
+      </code></pre>
+</section>
+<section class ="slide">
+    <h2>express创建服务器</h2>
+    <h3>要创建 express.HTTPServer 的实例，只需简单的调用 createServer() 方法即可。</h3>
+    <pre><code>
+        var app = require('express').createServer();
+        app.get('/', function(req, res){
+        res.send('hello world from justjavac.com!');
+        });
+        app.listen(3000);
+    </code></pre>
+</section>
+<section class="slide">
+    <h2>动态输出页面并用form提交数据</h2>
+    <pre><code>
+        //app.js
+        app.get('/', routes.index);
+        app.post('/dataFromClient', routes.dataFromClient);
+    </code></pre>
+    <pre><code>
+        //index.js
+        exports.index = function(req, res){
+            var add=['北京','上海','南通','江苏'];
+            res.render('index', { addr: add }); };
+        exports.dataFromClient = function(req, res){
+            console.log("exports.dataFromClient ", req.body, req.params);
+            res.redirect('back');
+            res.end();};
+    </code></pre>
+</section>
+<section class="slide" >
+    <h2>动态输出页面并用form提交数据</h2>
+    <pre><code>
+        //layout
+        doctype 5
+        html
+        head
+        title postfrom
+        meta(charset='UTF-8')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        body
+        block content
+    </code></pre>
+    <pre><code>
+      //index
+        extends layout
+        block content
+        form(action='dataFromClient' ,method='post')
+        input(name='address', value='地址')
+        input(type='submit' , value='提交')
+        p #{addr}
+    </code></pre>
+</section>
+<section class ="slide">
+    <h2>Jade的一些语法</h2>
+    <img src="images/jade.png">
+    <a href="http://naltatis.github.com/jade-syntax-docs/">    演示：http://naltatis.github.com/jade-syntax-docs/</a>
+</section>
+<section class ="slide">
+    <h2>自此Node.js就介绍完了！</h2>
+    <h1>谢谢观看！</h1>
+</section>
+<!-- Other extension HTML snippets go here, at the bottom of the deck container. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+	<label for="goto-slide">Go to slide:</label>
+	<input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+	<datalist id="goto-datalist"></datalist>
+	<input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="deck.js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Deck Core and extensions -->
+<script src="deck.js/core/deck.core.js"></script>
+<script src="deck.js/extensions/hash/deck.hash.js"></script>
+<script src="deck.js/extensions/menu/deck.menu.js"></script>
+<script src="deck.js/extensions/goto/deck.goto.js"></script>
+<script src="deck.js/extensions/status/deck.status.js"></script>
+<script src="deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="deck.js/extensions/scale/deck.scale.js"></script>
+
+<!-- Add any other extension JS files here -->
+
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+	$(function() {
+		$.deck('.slide');
+	});
+</script>
+</body>
+</html>
